@@ -14,14 +14,36 @@ public class Engine {
         String input;
         while(true) {
             input = scanner.nextLine();
-            switch (input) {
+            String command[] = input.split(" ");
+            switch (command[0]) {
                 case "xboard" :
+                    infoBox(input, "hai ca poti");
                     break;
                 case "new" :
+                    infoBox("a ajuns la new", "hai ca poti");
+                    System.out.println("feature usermove=1");
                     Board chess = Board.getInstance();
+                    break;
+                case "go" :
+                    infoBox(input, "hai ca poti");
+                    break;
+                case "usermove":
+                    infoBox(command[0], "hai ca poti");
+                    break;
+                case "black" :
+                    infoBox(input, "hai ca poti");
+                    break;
+                case "white" :
+                    infoBox(input, "hai ca poti");
+                    break;
+                case "protover":
+                    infoBox(command[0], "hai ca poti");
+                    break;
+                default:
+                    infoBox(input, "hai ca poti");
+                    System.out.println("move e7e5\n");
+                    break;
             }
-            infoBox(input, "hai ca poti");
-            break;
         }
     }
 }
