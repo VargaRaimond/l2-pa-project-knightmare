@@ -12,43 +12,45 @@ public class Pawn extends Piece{
     @Override
     public Boolean movePiece() {
         Board chessBoard = Board.getInstance();
+
         char[] movement = new char[4];
         // initial pos
-        movement[0] = (char)(getX_pos() + 'a');
-        movement[1] = (char)(getY_pos() + '0');
-
+        movement[0] = (char)(getYPos() + 'a');
+        movement[1] = (char)(getXPos() + '0' + 1);
         String result;
-
         if (!isWhite()) {
-            if (getX_pos() - 1 >= 0 && chessBoard.isCellEmpty(getX_pos() - 1, getY_pos())) {
-                if (firstMove && getX_pos() - 2 >= 0 && chessBoard.isCellEmpty(getX_pos() - 2, getY_pos())) {
+            if (getXPos() - 1 >= 0 && chessBoard.isCellEmpty(getXPos() - 1, getYPos())) {
+                if (firstMove && getXPos() - 2 >= 0 && chessBoard.isCellEmpty(getXPos() - 2, getYPos())) {
                     // generate the movement string
-                    movement[2] = (char)((getX_pos() - 2) + 'a');
-                    movement[3] = (char)(getY_pos() + '0');
+                    movement[2] = (char)(getYPos() + 'a');
+                    movement[3] = (char)(getXPos() - 2 + '0' + 1);
+
                 } else {
                     // generate the movement string
-                    movement[2] = (char) ((getX_pos() - 1) + 'a');
-                    movement[3] = (char) (getY_pos() + '0');
+                    movement[2] = (char) (getYPos() + 'a');
+                    movement[3] = (char) (getXPos() - 1 + '0' + 1);
                 }
-            } else if (getX_pos() - 1 >= 0 && getY_pos() - 1 >= 0 &&
-                    chessBoard.isCellEmpty(getX_pos() - 1, getY_pos() - 1)) {
-                movement[2] = (char)((getX_pos() - 1) + 'a');
-                movement[3] = (char)((getY_pos() - 1) + '0');
-            } else if (getX_pos() - 1 >= 0 && getY_pos() + 1 < 8 &&
-                    chessBoard.isCellEmpty(getX_pos() - 1, getY_pos() + 1)) {
-                movement[2] = (char)((getX_pos() - 1) + 'a');
-                movement[3] = (char)((getY_pos() + 1) + '0');
+                // TODO stop pawns from eating their own color
+            } else if (getXPos() - 1 >= 0 && getYPos() - 1 >= 0 &&
+                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() - 1)) {
+                movement[2] = (char)(getYPos() - 1 + 'a');
+                movement[3] = (char)(getXPos() - 1 + '0' + 1);
+            } else if (getXPos() - 1 >= 0 && getYPos() + 1 < 8 &&
+                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() + 1)) {
+                movement[2] = (char)(getYPos() + 1 + 'a');
+                movement[3] = (char)(getXPos() - 1 + '0' + 1);
             } else {
                 return false;
             }
         }
 
+        firstMove = false;
         result = new String(movement);
-        System.out.println(result);
+        System.out.println("move " + result);
         chessBoard.executeMove(result);
 
         return true;
     }
-
-
 }
+
+

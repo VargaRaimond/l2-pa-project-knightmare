@@ -1,4 +1,4 @@
-import com.project.Board;
+package com.project;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -12,6 +12,11 @@ public class Engine {
     }
 
     public static void main(String[] args) throws IOException {
+
+        Board chessBoard = Board.getInstance();
+        System.out.println("feature usermove=1 sigint=0");
+
+
         Scanner scanner = new Scanner(System.in);
         String input;
         while(true) {
@@ -23,14 +28,15 @@ public class Engine {
                     break;
                 case "new" :
                     infoBox("a ajuns la new", "hai ca poti");
-                    System.out.println("feature usermove=1");
-                    Board chess = Board.getInstance();
                     break;
                 case "go" :
                     infoBox(input, "hai ca poti");
                     break;
                 case "usermove":
                     infoBox(command[0], "hai ca poti");
+                    // execute command from xboard and the generate and execute bot move
+                    chessBoard.executeMove(command[1]);
+                    chessBoard.generateMove();
                     break;
                 case "black" :
                     infoBox(input, "hai ca poti");
@@ -42,8 +48,6 @@ public class Engine {
                     infoBox(command[0], "hai ca poti");
                     break;
                 default:
-                    infoBox(input, "hai ca poti");
-                    System.out.println("move e7e5\n");
                     break;
             }
         }

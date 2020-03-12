@@ -1,29 +1,29 @@
 package com.project.Pieces;
 
 public abstract class Piece {
-    private int x_pos;
-    private int y_pos;
+    private int XPos;
+    private int YPos;
     Boolean isWhite;
 
     public Piece(final int x, final int y) {
-        x_pos = x;
-        y_pos = y;
+        XPos = x;
+        YPos = y;
         isWhite = false;
     }
 
-    public int getX_pos() {
-        return x_pos;
+    public int getXPos() {
+        return XPos;
     }
 
-    public int getY_pos() {
-        return y_pos;
+    public int getYPos() {
+        return YPos;
     }
-    public void setX_pos(int x_pos) {
-        this.x_pos = x_pos;
+    public void setXPos(int XPos) {
+        this.XPos = XPos;
     }
 
-    public void setY_pos(int y_pos) {
-        this.y_pos = y_pos;
+    public void setYPos(int YPos) {
+        this.YPos = YPos;
     }
 
     public Boolean isWhite() {
