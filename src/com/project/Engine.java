@@ -1,3 +1,5 @@
+package com.project;
+
 import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,6 +12,9 @@ public class Engine {
     }
 
     public static void main(String[] args) throws IOException {
+        // used features
+        System.out.println("feature usermove=1");
+
         Scanner scanner = new Scanner(System.in);
         String input;
         while(true) {
@@ -21,7 +26,6 @@ public class Engine {
                     break;
                 case "new" :
                     infoBox("a ajuns la new", "hai ca poti");
-                    System.out.println("feature usermove=1");
                     Board chess = Board.getInstance();
                     break;
                 case "go" :
@@ -29,6 +33,7 @@ public class Engine {
                     break;
                 case "usermove":
                     infoBox(command[0], "hai ca poti");
+                    System.out.println("move e7e5\n");
                     break;
                 case "black" :
                     infoBox(input, "hai ca poti");
@@ -41,7 +46,6 @@ public class Engine {
                     break;
                 default:
                     infoBox(input, "hai ca poti");
-                    System.out.println("move e7e5\n");
                     break;
             }
         }
