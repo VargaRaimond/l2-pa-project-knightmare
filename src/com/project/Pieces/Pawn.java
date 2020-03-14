@@ -2,7 +2,7 @@ package com.project.Pieces;
 import com.project.Board;
 
 public class Pawn extends Piece{
-    Boolean firstMove;
+    private Boolean firstMove;
 
     public Pawn(int x, int y) {
         super(x, y);
@@ -12,7 +12,6 @@ public class Pawn extends Piece{
     @Override
     public Boolean movePiece() {
         Board chessBoard = Board.getInstance();
-
         char[] movement = new char[4];
         // initial pos
         movement[0] = (char)(getYPos() + 'a');
@@ -24,21 +23,27 @@ public class Pawn extends Piece{
                     // generate the movement string
                     movement[2] = (char)(getYPos() + 'a');
                     movement[3] = (char)(getXPos() - 2 + '0' + 1);
-
                 } else {
                     // generate the movement string
                     movement[2] = (char) (getYPos() + 'a');
                     movement[3] = (char) (getXPos() - 1 + '0' + 1);
                 }
-                // TODO stop pawns from eating their own color
             } else if (getXPos() - 1 >= 0 && getYPos() - 1 >= 0 &&
-                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() - 1)) {
+                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() - 1) &&
+                    chessBoard.isOppositeColor(getXPos() - 1, getYPos() - 1, isWhite())) {
                 movement[2] = (char)(getYPos() - 1 + 'a');
                 movement[3] = (char)(getXPos() - 1 + '0' + 1);
+
+                // TODO remove the eaten piece
+
             } else if (getXPos() - 1 >= 0 && getYPos() + 1 < 8 &&
-                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() + 1)) {
+                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() + 1) &&
+                    chessBoard.isOppositeColor(getXPos() - 1, getYPos() + 1, isWhite())) {
                 movement[2] = (char)(getYPos() + 1 + 'a');
                 movement[3] = (char)(getXPos() - 1 + '0' + 1);
+
+                // TODO remove the eaten piece
+
             } else {
                 return false;
             }

@@ -8,7 +8,7 @@ public abstract class Piece {
     public Piece(final int x, final int y) {
         XPos = x;
         YPos = y;
-        isWhite = false;
+        isWhite = false; // Pieces are black by default
     }
 
     public int getXPos() {
@@ -18,6 +18,7 @@ public abstract class Piece {
     public int getYPos() {
         return YPos;
     }
+
     public void setXPos(int XPos) {
         this.XPos = XPos;
     }

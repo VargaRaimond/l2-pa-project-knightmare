@@ -23,24 +23,52 @@ public final class Board {
 
         for(int i = 0; i < 8; i++) {
             // add pawns
-            board.get(1).set(i, new Pawn(1, i));
-            board.get(6).set(i, new Pawn(6, i));
-
             board.get(0).set(i, new Pawn(0, i));
+            board.get(1).set(i, new Pawn(1, i));
+
+            // Pawns are black by default
+            board.get(6).set(i, new Pawn(6, i));
             board.get(7).set(i, new Pawn(7, i));
+
+            // Set white pawns
+            board.get(0).get(i).setWhite(true);
+            board.get(1).get(i).setWhite(true);
         }
         botPieces.addAll(board.get(6));
        // botPieces.addAll(board.get(7));
     }
 
+    /**
+     * Checks if a cell is empty.
+     * @param x,y - coordinates.
+     * @return    - true if it's empty
+     *              false otherwise.
+     */
     public boolean isCellEmpty(final int x, final int y) {
         return board.get(x).get(y) == null;
+    }
+
+    /**
+     * Checks if a piece has the opposite color. Avoids eating their own color
+     * @param x,y   - coordinates.
+     * @param white - true if the moving piece is white;
+     *                false otherwise.
+     * @return      - true if the opponent has the opposite color;
+     *                false otherwise.
+     */
+    public boolean isOppositeColor(final int x, final int y, final boolean white) {
+        return white ? !(board.get(x).get(y).isWhite()) : board.get(x).get(y).isWhite();
     }
 
     public static Board getInstance() {
         if(instance == null) {
             instance = new Board();
         }
+        return instance;
+    }
+
+    public static Board getNewInstance() {
+        instance = new Board();
         return instance;
     }
 
@@ -57,15 +85,15 @@ public final class Board {
 
     // move a piece on our internal board
     public void executeMove(String move) {
-        int current_x = Integer.parseInt(String.valueOf(move.charAt(1))) - 1;
-        int current_y = move.charAt(0) - 'a';
-        int next_x = Integer.parseInt(String.valueOf(move.charAt(3))) - 1;
-        int next_y = move.charAt(2) -'a';
+        int currentX = Integer.parseInt(String.valueOf(move.charAt(1))) - 1;
+        int currentY = move.charAt(0) - 'a';
+        int nextX = Integer.parseInt(String.valueOf(move.charAt(3))) - 1;
+        int nextY = move.charAt(2) -'a';
 
-        Piece piece = board.get(current_x).get(current_y);
-        board.get(next_x).set(next_y, piece);
-        board.get(current_x).set(current_y, null);
-        piece.setXPos(next_x);
-        piece.setYPos(next_y);
+        Piece piece = board.get(currentX).get(currentY);
+        board.get(nextX).set(nextY, piece);
+        board.get(currentX).set(currentY, null);
+        piece.setXPos(nextX);
+        piece.setYPos(nextY);
     }
 }
