@@ -3,7 +3,6 @@ package com.project;
 import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
-import com.project.Board;
 
 public class Engine {
 
@@ -64,7 +63,7 @@ public class Engine {
                     break;
 
                 default:
-                    infoBox(input, "hai ca poti");
+//                    infoBox(input, "hai ca poti");
                     break;
             }
         }

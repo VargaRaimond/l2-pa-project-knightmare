@@ -1,59 +1,83 @@
 package com.project.Pieces;
 import com.project.Board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Pawn extends Piece{
     private Boolean firstMove;
+    private List<Integer> deltaX;
 
     public Pawn(int x, int y) {
         super(x, y);
         firstMove = true;
+        deltaX = new ArrayList<>();
+        // constants for black pieces
+        deltaX.add(-1);
+        deltaX.add(-2);
+    }
+
+    @Override
+    public void setWhite(Boolean white) {
+        // add constants for white
+        if (white) {
+            deltaX.clear();
+            deltaX.add(1);
+            deltaX.add(2);
+        } else if (!isWhite()) {
+            // if it was't black already
+            deltaX.add(-1);
+            deltaX.add(-2);
+        }
+        super.setWhite(white);
     }
 
     @Override
     public Boolean movePiece() {
         Board chessBoard = Board.getInstance();
-        char[] movement = new char[4];
+        StringBuilder move = new StringBuilder();
+
         // initial pos
-        movement[0] = (char)(getYPos() + 'a');
-        movement[1] = (char)(getXPos() + '0' + 1);
-        String result;
-        if (!isWhite()) {
-            if (getXPos() - 1 >= 0 && chessBoard.isCellEmpty(getXPos() - 1, getYPos())) {
-                if (firstMove && getXPos() - 2 >= 0 && chessBoard.isCellEmpty(getXPos() - 2, getYPos())) {
-                    // generate the movement string
-                    movement[2] = (char)(getYPos() + 'a');
-                    movement[3] = (char)(getXPos() - 2 + '0' + 1);
-                } else {
-                    // generate the movement string
-                    movement[2] = (char) (getYPos() + 'a');
-                    movement[3] = (char) (getXPos() - 1 + '0' + 1);
-                }
-            } else if (getXPos() - 1 >= 0 && getYPos() - 1 >= 0 &&
-                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() - 1) &&
-                    chessBoard.isOppositeColor(getXPos() - 1, getYPos() - 1, isWhite())) {
-                movement[2] = (char)(getYPos() - 1 + 'a');
-                movement[3] = (char)(getXPos() - 1 + '0' + 1);
+        move.append((char)(getYPos() + 'a'));
+        move.append((char)(getXPos() + '0' + 1));
 
-                // TODO remove the eaten piece
+        if (getXPos() + deltaX.get(0) >= 0 && getXPos() + deltaX.get(0) < 8
+                && chessBoard.isCellEmpty(getXPos() + deltaX.get(0), getYPos())) {
 
-            } else if (getXPos() - 1 >= 0 && getYPos() + 1 < 8 &&
-                    !chessBoard.isCellEmpty(getXPos() - 1, getYPos() + 1) &&
-                    chessBoard.isOppositeColor(getXPos() - 1, getYPos() + 1, isWhite())) {
-                movement[2] = (char)(getYPos() + 1 + 'a');
-                movement[3] = (char)(getXPos() - 1 + '0' + 1);
+            if (firstMove && getXPos() + deltaX.get(1) >= 0 && deltaX.get(1) < 8 &&
+                    chessBoard.isCellEmpty(getXPos() + deltaX.get(1), getYPos())) {
 
-                // TODO remove the eaten piece
+                // generate the movement string
+                move.append((char)(getYPos() + 'a'));
+                move.append((char)(getXPos() + deltaX.get(1) + '0' + 1));
 
             } else {
-                return false;
+                // generate the movement string
+                move.append((char)(getYPos() + 'a'));
+                move.append((char)(getXPos() + deltaX.get(0) + '0' + 1));
             }
+
+        } else if (getXPos() + deltaX.get(0) >= 0 && getXPos() + deltaX.get(0) < 8 && getYPos() - 1 >= 0 &&
+                !chessBoard.isCellEmpty(getXPos() + deltaX.get(0), getYPos() - 1) &&
+                chessBoard.isOppositeColor(getXPos() + deltaX.get(0), getYPos() - 1, isWhite())) {
+
+            move.append((char)(getYPos() - 1 + 'a'));
+            move.append((char)(getXPos() + deltaX.get(0) + '0' + 1));
+
+        } else if (getXPos() + deltaX.get(0) >= 0 && getXPos() + deltaX.get(0) < 8 && getYPos() + 1 < 8 &&
+                !chessBoard.isCellEmpty(getXPos()+ deltaX.get(0), getYPos() + 1) &&
+                chessBoard.isOppositeColor(getXPos() + deltaX.get(0), getYPos() + 1, isWhite())) {
+
+            move.append((char)(getYPos() + 1 + 'a'));
+            move.append((char)(getXPos() + deltaX.get(0) + '0' + 1));
+
+        } else {
+            return false;
         }
 
         firstMove = false;
-        result = new String(movement);
-        System.out.println("move " + result);
-        chessBoard.executeMove(result);
-
+        System.out.println("move " + move.toString());
+        chessBoard.executeMove(move.toString());
         return true;
     }
 }

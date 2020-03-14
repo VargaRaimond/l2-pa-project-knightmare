@@ -90,10 +90,19 @@ public final class Board {
         int nextX = Integer.parseInt(String.valueOf(move.charAt(3))) - 1;
         int nextY = move.charAt(2) -'a';
 
+        if (!isCellEmpty(nextX, nextY)) {
+            removePiece(nextX, nextY);
+        }
+
         Piece piece = board.get(currentX).get(currentY);
         board.get(nextX).set(nextY, piece);
         board.get(currentX).set(currentY, null);
         piece.setXPos(nextX);
         piece.setYPos(nextY);
+    }
+
+    public void removePiece(final int x, final int y) {
+        botPieces.remove(board.get(x).get(y));
+        board.get(x).set(y, null);
     }
 }
