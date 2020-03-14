@@ -1,15 +1,9 @@
 package com.project;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Engine {
-
-    // prints a box on screen
-    public static void infoBox(String infoMessage, String titleBar) {
-        JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -19,51 +13,53 @@ public class Engine {
 
         Scanner scanner = new Scanner(System.in);
         String input;
-        while(true) {
+        while (true) {
             input = scanner.nextLine();
             String[] command = input.split(" ");
             switch (command[0]) {
-                case "xboard" :
-                    infoBox(input, "hai ca poti");
+                case "xboard":
                     break;
 
-                case "new" :
+                case "new":
                     chessBoard = Board.getNewInstance();
-                    infoBox("a ajuns la new", "hai ca poti");
+                    force = false;
                     break;
 
-                case "force" :
-                    infoBox(input, "hai ca poti");
+                case "force":
                     force = true;
                     break;
 
-                case "go" :
-                    infoBox(input, "hai ca poti");
+                case "go":
                     force = false;
                     break;
 
                 case "usermove":
-                    infoBox(command[0], "hai ca poti");
                     // execute command from xboard and the generate and execute bot move
                     chessBoard.executeMove(command[1]);
                     if (!force)
                         chessBoard.generateMove();
                     break;
 
-                case "black" :
-                    infoBox(input, "hai ca poti");
+                case "black":
+                    while (!input.equals("white")) {
+                        input = scanner.nextLine();
+                    }
+                    // change bot on white
+                    chessBoard.changeColor(true);
+                    chessBoard.generateMove();
                     break;
 
-                case "white" :
-                    infoBox(input, "hai ca poti");
+                case "white":
+                    while (!input.equals("black")) {
+                        input = scanner.nextLine();
+                    }
+                    // change bot on black
+                    chessBoard.changeColor(false);
+                    chessBoard.generateMove();
                     break;
-
-                case "protover":
-                    infoBox(command[0], "hai ca poti");
-                    break;
-
+                case "quit":
+                    return;
                 default:
-//                    infoBox(input, "hai ca poti");
                     break;
             }
         }

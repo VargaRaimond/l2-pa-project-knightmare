@@ -4,11 +4,12 @@ public abstract class Piece {
     private int XPos;
     private int YPos;
     Boolean isWhite;
+    public PieceType type;
 
-    public Piece(final int x, final int y) {
+    public Piece(final int x, final int y, final boolean white) {
         XPos = x;
         YPos = y;
-        isWhite = false; // Pieces are black by default
+        isWhite = white;
     }
 
     public int getXPos() {
@@ -29,10 +30,6 @@ public abstract class Piece {
 
     public Boolean isWhite() {
         return isWhite;
-    }
-
-    public void setWhite(Boolean white) {
-        isWhite = white;
     }
 
     public abstract Boolean movePiece();

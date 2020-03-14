@@ -1,7 +1,9 @@
 package com.project;
 
+import com.project.Pieces.Knight;
 import com.project.Pieces.Pawn;
 import com.project.Pieces.Piece;
+import com.project.Pieces.PieceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,17 +24,15 @@ public final class Board {
         }
 
         for(int i = 0; i < 8; i++) {
-            // add pawns
-            board.get(0).set(i, new Pawn(0, i));
-            board.get(1).set(i, new Pawn(1, i));
+            // add all piece on board - pawns for now
+            // knights are dummies used so we ignore them
+            // and not consider them pawns
+            board.get(0).set(i, new Knight(0, i, true));
+            board.get(1).set(i, new Pawn(1, i, true));
 
-            // Pawns are black by default
-            board.get(6).set(i, new Pawn(6, i));
-            board.get(7).set(i, new Pawn(7, i));
+            board.get(6).set(i, new Pawn(6, i, false));
+            board.get(7).set(i, new Knight(7, i, false));
 
-            // Set white pawns
-            board.get(0).get(i).setWhite(true);
-            board.get(1).get(i).setWhite(true);
         }
         botPieces.addAll(board.get(6));
        // botPieces.addAll(board.get(7));
@@ -84,12 +84,13 @@ public final class Board {
     }
 
     // move a piece on our internal board
-    public void executeMove(String move) {
+    public void executeMove(final String move) {
         int currentX = Integer.parseInt(String.valueOf(move.charAt(1))) - 1;
         int currentY = move.charAt(0) - 'a';
         int nextX = Integer.parseInt(String.valueOf(move.charAt(3))) - 1;
         int nextY = move.charAt(2) -'a';
 
+        // if we find another piece, eat it
         if (!isCellEmpty(nextX, nextY)) {
             removePiece(nextX, nextY);
         }
@@ -104,5 +105,22 @@ public final class Board {
     public void removePiece(final int x, final int y) {
         botPieces.remove(board.get(x).get(y));
         board.get(x).set(y, null);
+    }
+
+    public void changeColor(final boolean white) {
+        // if we already play with this color ignore command
+        if (botPieces.get(0).isWhite() == white) {
+            return;
+        }
+        botPieces.clear();
+        for (int i = 0; i < 8; i++) {
+            for (Piece piece : board.get(i)) {
+                if (piece != null) {
+                    if (piece.isWhite() == white && piece.type == PieceType.Pawn) {
+                        botPieces.add(piece);
+                    }
+                }
+            }
+        }
     }
 }

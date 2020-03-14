@@ -8,28 +8,19 @@ public class Pawn extends Piece{
     private Boolean firstMove;
     private List<Integer> deltaX;
 
-    public Pawn(int x, int y) {
-        super(x, y);
+    public Pawn(int x, int y, boolean white) {
+        super(x, y, white);
         firstMove = true;
+        type = PieceType.Pawn;
         deltaX = new ArrayList<>();
         // constants for black pieces
-        deltaX.add(-1);
-        deltaX.add(-2);
-    }
-
-    @Override
-    public void setWhite(Boolean white) {
-        // add constants for white
-        if (white) {
-            deltaX.clear();
+        if (isWhite()) {
             deltaX.add(1);
             deltaX.add(2);
-        } else if (!isWhite()) {
-            // if it was't black already
+        } else {
             deltaX.add(-1);
             deltaX.add(-2);
         }
-        super.setWhite(white);
     }
 
     @Override
