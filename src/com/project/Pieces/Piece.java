@@ -3,10 +3,10 @@ package com.project.Pieces;
 public abstract class Piece {
     private int XPos;
     private int YPos;
-    Boolean isWhite;
+    private Boolean isWhite;
     public PieceType type;
 
-    public Piece(final int x, final int y, final boolean white) {
+    Piece(final int x, final int y, final boolean white) {
         XPos = x;
         YPos = y;
         isWhite = white;

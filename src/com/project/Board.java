@@ -16,14 +16,14 @@ public final class Board {
     private Board() {
         board = new ArrayList<>();
         botPieces = new ArrayList<>();
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             board.add(new ArrayList<>());
             for (int j = 0; j < 8; ++j) {
                 board.get(i).add(null);
             }
         }
 
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             // add all piece on board - pawns for now
             // knights are dummies used so we ignore them
             // and not consider them pawns
@@ -61,7 +61,7 @@ public final class Board {
     }
 
     public static Board getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Board();
         }
         return instance;
@@ -74,7 +74,7 @@ public final class Board {
 
     // banal function to iterate through pawns and move them
     public void generateMove() {
-        for(Piece piece : botPieces) {
+        for (Piece piece : botPieces) {
             if (piece.movePiece()) {
                 return;
             }
